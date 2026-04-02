@@ -5,7 +5,7 @@ import RidePopUp from '../components/RidePopUp'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import axios from 'axios'
-import ConfirmRidePopUp from "../components/ConfirmRIdePopUp"
+import ConfirmRidePopUp from "../components/ConfirmRidePopUp.jsx"
 import { SocketContext } from '../context/SocketContet'
 import { CaptainDataContext } from '../context/CaptainContext'
 
