@@ -11,6 +11,8 @@ import WaitingForDriver from '../components/WaitingForDriver'
 import LookingForDriver from '../components/LookingForDriver'
 import { SocketContext } from '../context/SocketContet'
 import { UserDataContext } from "../context/UserContext"
+import { useNavigate } from 'react-router-dom'
+import LiveTracking from '../components/LiveTracking'
 
 
 const Home = () => {
@@ -36,8 +38,13 @@ const Home = () => {
   const [ vehicleType, setVehicleType ] = useState(null)
   const [ ride, setRide ] = useState(null)
 
+
+  const navigate = useNavigate()
   const {socket} = useContext(SocketContext)
   const { user } = useContext(UserDataContext)
+
+  console.log("waitingForDriver:", waitingForDriver)
+  console.log("ride:", ride)
 
   useEffect(() => {
     console.log(user)
@@ -45,20 +52,32 @@ const Home = () => {
     socket.emit("join", { userType: "user", userId: user._id })
   }, [user]);
 
-  socket.on('ride-confirmed', ride => {
+  socket.on('ride-confirmed', (ride) => {
+    console.log("Ride Confirmed:", ride)
+
+    setVehicleFound(false)
     setWaitingForDriver(true)
+    setRide(ride)
   })
 
-  // useEffect(() => {
-  // console.log("User in Home:", user);
+  socket.on('ride-started', ride => {
+    setWaitingForDriver(false)
+    navigate('/riding', {state: {ride}})
+  })
 
-  // if (user?._id) {
-  //     sendMessage("join", {
-  //       userType: "user",
-  //       userId: user._id
-  //     });
-  //   }
-  // }, [user]);
+//   useEffect(() => {
+//   socket.on('ride-confirmed', (ride) => {
+//     console.log("Ride Confirmed Event:", ride)
+
+//     setRide(ride)
+//     setVehicleFound(false)
+//     setWaitingForDriver(true)
+//   })
+
+//   return () => {
+//     socket.off('ride-confirmed')
+//   }
+// }, [socket])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -217,8 +236,7 @@ const Home = () => {
 
         <div
          className='h-screen w-screen'>
-          <img className='h-full w-full object-cover'
-          src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" />
+          <LiveTracking />
         </div>
 
         <div className='flex flex-col justify-end h-screen absolute top-0 w-full '>
@@ -307,6 +325,7 @@ const Home = () => {
         <div ref={vehicleFoundRef}  className='w-full fixed z-10 translate-y-full bottom-0 px-3 py-6 pt-12 bg-white'>
           <LookingForDriver
           fare = {fare}
+          createRide={createRide}
           vehicleType= {vehicleType}
           pickup = {pickup}
           destination = {destination}
@@ -314,7 +333,12 @@ const Home = () => {
         </div>
 
         <div ref={waitingForDriverRef}  className='w-full fixed z-10 translate-y-full bottom-0 px-3 py-6 pt-12 bg-white'>
-          <WaitingForDriver waitingForDriver={waitingForDriver} />
+          <WaitingForDriver 
+          ride={ride}
+          setConfirmRidePanel={setConfirmRidePanel}
+          setVehicleFound={setVehicleFound}
+          setWaitingForDriver={setWaitingForDriver}
+          waitingForDriver={waitingForDriver} />
         </div>
       </div>
     </div>
