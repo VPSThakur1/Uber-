@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body, query } from "express-validator";
-import { CreateRide, GetFare, ConfirmRide } from "../controllers/ride.controller.js";
+import { CreateRide, GetFare, ConfirmRide, StartRide, EndRide } from "../controllers/ride.controller.js";
 import { verifycaptainJWT, verifyJWT } from "../middlewares/auth.middleware.js";
 
 
@@ -23,8 +23,21 @@ routerR.get('/get-fare',
 routerR.post('/confirm',
     verifycaptainJWT,
     body('rideId').isMongoId().withMessage("Invale ride id"),
-    body('otp').isString({min:6, max:6}).withMessage("OTP should be of 6 digit"),
+    // body('otp').isString({min:6, max:6}).withMessage("OTP should be of 6 digit"),
     ConfirmRide
+)
+
+routerR.get('/start-ride',
+    verifycaptainJWT,
+    query('rideId').isMongoId().withMessage('Invalid ride Id'),
+    query('otp').isLength({min:6, max:6}).withMessage("OTP should be of 6 digit"),
+    StartRide
+)
+
+routerR.post('/end-ride',
+    verifycaptainJWT,
+    body('rideId').isMongoId().withMessage('Invalid ride id'),
+    EndRide
 )
 
 export default routerR;

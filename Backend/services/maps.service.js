@@ -102,30 +102,9 @@ const getCaptainInTheRadius = async (lat, lng, radius) => {
     return captains;
 };
 
-const confirmRide = async({ rideId }) => {
-    if(!rideId) {
-        throw new ApiError(400, 'Ride Id is required');
-    }
-
-    await RideModel.findOneAndUpdate({
-        _id: rideId 
-    }, {
-        status: 'accepted',
-        captain: captain._id
-    })
-
-    const ride = await RideModel.findOne({ _id : ride}).populate('User')
-
-    if(!ride) {
-        throw new Error('Ride is not FOUND !!');
-    }
-
-    return ride;
-}
 
 export { getAddressCoordinate , 
     getDistanceTime, 
     getAutoCompleteSuggestions, 
     getCaptainInTheRadius,
-    confirmRide
 }

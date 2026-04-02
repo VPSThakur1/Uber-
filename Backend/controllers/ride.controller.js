@@ -1,11 +1,12 @@
 import { validationResult } from "express-validator";
-import { createRide, getFare } from "../services/ride.service.js";
+import { createRide, endRide, getFare, startRide } from "../services/ride.service.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
-import { getCaptainInTheRadius, getAddressCoordinate, confirmRide } from "../services/maps.service.js"
+import { getCaptainInTheRadius, getAddressCoordinate} from "../services/maps.service.js"
 import { sendMessageToSocketId } from "../socket.js";
 import { RideModel } from "../models/ride.model.js";
+import { confirmRide } from "../services/ride.service.js";
 
 
 const CreateRide = asyncHandler(async(req, res) => {
@@ -67,14 +68,25 @@ const GetFare = asyncHandler(async(req, res, next) => {
 
 const ConfirmRide = asyncHandler(async(req, res, next) => {
     const errors = validationResult(req);
-    if(!errors.isEmpty()) {
-        throw new ApiError(400, 'Error in ConfirmRide')
-    }
+    if (!errors.isEmpty()) {
+    console.log("ConfirmRide Validation Errors:", errors.array());
+    return res.status(400).json({
+        message: "Validation failed",
+        errors: errors.array()
+    });
+}
 
     const { rideId } = req.body;
 
     try {
-        const ride = await confirmRide(rideId, req.captain._id)
+        const ride = await confirmRide({rideId, captain: req.captain})
+
+        console.log("req.body:", req.body)
+        console.log("rideId from body:", req.body.rideId)
+        console.log("Confirmed Ride:", ride);
+        console.log("Ride User:", ride.user);
+        console.log("Ride Captain:", ride.captain);
+        console.log("User socketId:", ride.user?.socketId);
 
         sendMessageToSocketId(ride.user.socketId, {
             event: 'ride-confirmed',
@@ -85,8 +97,67 @@ const ConfirmRide = asyncHandler(async(req, res, next) => {
             new ApiResponse(200, ride, 'Suuceess of Confirm ride controller')
         )
     } catch(err) {
+        console.log(err)
         throw new ApiError(401, 'Eror')
     }
 })
 
-export { CreateRide, GetFare, ConfirmRide }
+const StartRide = asyncHandler(async(req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+    console.log("ConfirmRide Validation Errors:", errors.array());
+    return res.status(400).json({
+        message: "Validation failed",
+        errors: errors.array()
+    })
+    }
+
+    const {rideId, otp} = req.query;
+
+    console.log("StartRide req.query:", req.query);
+    console.log("rideId:", rideId);
+    console.log("otp:", otp);
+    console.log("req.captain:", req.captain);
+
+    try {
+        const ride = await startRide({rideId, otp, captain: req.captain})
+
+        console.log(ride);
+
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-started',
+            data: ride
+        })
+        return res.status(200).json(ride);
+    } catch (err) {
+        return res.status(500).json({ message: err.message})
+    }
+})
+
+const EndRide = asyncHandler(async(req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        console.log("ConfirmRide Validation Errors:", errors.array());
+        return res.status(400).json({
+            message: "Validation failed",
+            errors: errors.array()
+        })
+    }
+
+    const { rideId } = req.body;
+
+    try {
+        const ride = await endRide({rideId, captain: req.captain})
+
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-ended',
+            data: ride
+        })
+
+        return res.status(200).json(ride)
+    } catch (error) {
+        return res.status(500).json({message: error.message})
+    }
+})
+
+export { CreateRide, GetFare, ConfirmRide, StartRide, EndRide }

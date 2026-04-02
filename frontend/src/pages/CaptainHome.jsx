@@ -4,6 +4,7 @@ import CaptainDetails from '../components/CaptainDetails'
 import RidePopUp from '../components/RidePopUp'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
+import axios from 'axios'
 import ConfirmRidePopUp from "../components/ConfirmRIdePopUp"
 import { SocketContext } from '../context/SocketContet'
 import { CaptainDataContext } from '../context/CaptainContext'
@@ -67,14 +68,50 @@ const CaptainHome = () => {
     //   userId: captain._id,
     //   rideId: ride._id
     // })
+    console.log("Ride before confirm:", ride)
+    console.log("Ride ID before confirm:", ride?._id)
 
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`, {
       
+      rideId: ride._id,
+      captainId: captain._id,
+
+    }, {
+      headers : {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      }
     })
+
+    console.log("Confirm API Response:", response.data)
+    console.log("Confirm API Response 2:", response.data.data)
 
     setRidePopUpPanel(false)
     setConfirmRidePopUpPanel(true)
   }
+
+  // async function confirmRide() {
+  //   try {
+  //     const response = await axios.post(
+  //       `${import.meta.env.VITE_BASE_URL}/rides/confirm`,
+  //       {
+  //         rideId: ride._id,
+  //         captainId: captain._id,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+  //         }
+  //       }
+  //     );
+
+  //     console.log("Ride Confirmed Response:", response.data);
+
+  //     setRidePopUpPanel(false);
+  //     setConfirmRidePopUpPanel(true);
+  //   } catch (error) {
+  //     console.log("Confirm Ride Error:", error.response?.data || error.message);
+  //   }
+  // }
 
   useGSAP(() => {
     if(ridePopUpPanel) {
@@ -127,7 +164,10 @@ const CaptainHome = () => {
         </div>
 
         <div ref={confirmRidePopUpPanelRef} className='w-full h-screen translate-y-full fixed z-10 bottom-0 px-3 py-6 pt-12 bg-white'>
-          <ConfirmRidePopUp setConfirmRidePopUpPanel={setConfirmRidePopUpPanel}  setRidePopUpPanel={setRidePopUpPanel} />
+          <ConfirmRidePopUp
+          ride={ride}
+          setConfirmRidePopUpPanel={setConfirmRidePopUpPanel}  
+          setRidePopUpPanel={setRidePopUpPanel} />
         </div>
     </div>
   )

@@ -1,12 +1,63 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+
+
 
 const ConfirmRidePopUp = (props) => {
     const [otp, setOtp] = useState('')
+    const navigate = useNavigate()
 
-    const submitHandler = (e) => {
-        e.preventDefault()
-    }
+    // const submitHandler = async(e) => {
+    //     e.preventDefault()
+
+    //     const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
+    //         params: {
+    //             rideId: props.ride._id,
+    //             otp: otp
+    //         },
+    //         headers: {
+    //             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+    //         }
+    //     })
+
+    //     if (response.status === 200) {
+    //         props.setConfirmRidePopupPanel(false)
+    //         props.setRidePopupPanel(false)
+    //         navigate('/captain-riding', { state: { ride: props.ride } })
+    //     }
+    // }
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+
+        try {
+            console.log("Ride in popup:", props.ride);
+            console.log("Ride ID:", props.ride?._id);
+            console.log("OTP:", otp);
+
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/rides/start-ride`, {
+                params: {
+                    rideId: props.ride._id,
+                    otp: otp
+                },
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            });
+
+            console.log("Start Ride Response:", response.data);
+
+            if (response.status === 200) {
+                props.setConfirmRidePopUpPanel(false);
+                props.setRidePopUpPanel(false);
+                console.log("Navigating to /captain-riding")
+                navigate('/captain-riding', { state: { ride: props.ride } });
+            }
+        } catch (error) {
+            console.log("Start Ride Error:", error.response?.data || error.message);
+        }
+    };
 
   return (
     <div className='h-screen'>
@@ -19,7 +70,7 @@ const ConfirmRidePopUp = (props) => {
         <div className='flex items-center justify-between bg-yellow-300 rounded-2xl p-3 mt-4'>
             <div className='flex items-center gap-3 '>
                 <img className='w-12 h-12 rounded-full object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCIyTZVXyb90oYHRiiX6YkNUc0CnzGwWjI3Q&s" alt="" />
-                <h2 className='text-lg font-medium'>Harsha Patel</h2>
+                <h2 className='text-lg font-medium capitalize'>{props.ride?.user?.fullName.firstName}</h2>
             </div>
             <h5 className='text-lg font-semibold'>2.2 KM</h5>
         </div>
@@ -31,7 +82,7 @@ const ConfirmRidePopUp = (props) => {
                     <i className="text-xl ri-map-pin-fill"></i>
                     <div>
                         <h3 className='text-lg font-medium'>562/11-A</h3>
-                        <p className='text-sm -mt-1 text-gray-600'>Kuttiya manit bhopal</p>
+                        <p className='text-sm -mt-1 text-gray-600'>{props.ride?.pickup}</p>
                     </div>
                 </div>
 
@@ -39,7 +90,7 @@ const ConfirmRidePopUp = (props) => {
                     <i className="text-xl ri-map-pin-user-line"></i>
                     <div>
                         <h3 className='text-lg font-medium'>562/11-A</h3>
-                        <p className='text-sm -mt-1 text-gray-600'>Kuttiya manit bhopal</p>
+                        <p className='text-sm -mt-1 text-gray-600'>{props.ride?.destination}</p>
                     </div>
                 </div>
 
@@ -54,9 +105,7 @@ const ConfirmRidePopUp = (props) => {
             </div>
 
             <div className='w-full mt-6 gap-5'>
-                <form onSubmit={(e) => {
-                    submitHandler(e)
-                }}>
+                <form onSubmit={submitHandler}>
 
                     <input value={otp} onChange={(e) => {
                         setOtp(e.target.value)
@@ -64,8 +113,8 @@ const ConfirmRidePopUp = (props) => {
                     className='bg-[#eee] font-mono px-6 py-4 text-lg rounded-xl w-full mt-3'/>
 
 
-                    <Link  to={'/captain-riding'}
-                    className='w-full flex justify-center text-lg mt-5 text-white p-2 rounded-xl bg-green-500 font-semibold'>Confirm Ride</Link>
+                    <button type='submit'
+                    className='w-full flex justify-center text-lg mt-5 text-white p-2 rounded-xl bg-green-500 font-semibold'>Confirm Ride</button>
 
                     <button onClick={() => {
                         props.setConfirmRidePopUpPanel(false)

@@ -49,8 +49,8 @@ const registerCaptain = asyncHandler(async (req, res, next) => {
 
     const token = captain.generateAccessToken();
 
-    return res.status(201).json(
-        new ApiResponse(201, {token, captain} , "Captain created Successfully")
+    return res.status(200).json(
+        new ApiResponse(200, {token, captain} , "Captain created Successfully")
     )
 })
 
@@ -86,7 +86,7 @@ const loginCaptain = asyncHandler(async(req, res, next) => {
 })
 
 const getCaptainProfile = asyncHandler(async(req, res, next) => {
-    return res.status(201).json(
+    return res.status(200).json(
         new ApiResponse(200, req.captain, "user")
     )
 })
@@ -104,7 +104,7 @@ const logoutCaptain = asyncHandler(async (req, res, next) => {
     })
 
     res.clearCookie('token');
-    return res.status(203).json(
+    return res.status(200).json(
         new ApiResponse(200, "logout out successfully")
     )
 })
