@@ -11,7 +11,7 @@ const LookingForDriver = (props) => {
 
         <div className='flex gap-5 flex-col items-center justify-between'>
             <img className='h-20'
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPsZ40PoKtuhkIRk8QC8fqmKbTkZxKJtcNLBL5biSojttSGQNSUdy8lxrLxFTJfXwkIWMKRs9t-aM_BpccWO6l&s&ec=121528429" alt="" />
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9AvLAhtGjwHzY9fVkt8ps3gtgqzke1U6RgQ&s" alt="" />
 
             <div className='w-full mt-5'>
                 <div className='flex items-center gap-5 p-3 border-b-2'>

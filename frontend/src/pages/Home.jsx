@@ -232,7 +232,7 @@ const Home = () => {
     <div>
       <div className='h-screen relative overflow-hidden'>
         <img className='w-16 absolute top-5 left-5'
-        src="https://upload.wikimedia.org/wikipedia/commons/c/cc/thakur_logo_2018.png" alt="" />
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9AvLAhtGjwHzY9fVkt8ps3gtgqzke1U6RgQ&s" alt="" />
 
         <div
          className='h-screen w-screen'>

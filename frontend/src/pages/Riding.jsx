@@ -29,7 +29,7 @@ const Riding = (props) => {
         <div className='h-1/2 p-4'>
             <div className='flex items-center justify-between'>
              <img className='h-12'
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPsZ40PoKtuhkIRk8QC8fqmKbTkZxKJtcNLBL5biSojttSGQNSUdy8lxrLxFTJfXwkIWMKRs9t-aM_BpccWO6l&s&ec=121528429" alt="" />
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9AvLAhtGjwHzY9fVkt8ps3gtgqzke1U6RgQ&s" alt="" />
             <div className='text-right'>
                 
                 <h2 className='text-xl font-medium capitalize'>{ride?.captain?.fullName?.firstName}</h2>

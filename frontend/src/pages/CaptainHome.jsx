@@ -140,7 +140,7 @@ const CaptainHome = () => {
   return (
     <div className='h-screen'>
         <div className='fixed p-6 top-0 flex items-center justify-between w-full'>
-          <img className='w-16' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/thakur_logo_2018.png"/>
+          <img className='w-16' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9AvLAhtGjwHzY9fVkt8ps3gtgqzke1U6RgQ&s"/>
           <Link to={'/captain-login'}  className='h-10 w-10 bg-white flex items-center justify-center rounded-full'>
             <i className="text-xl font-bold ri-logout-box-line"></i>
           </Link>
@@ -148,7 +148,7 @@ const CaptainHome = () => {
 
         <div className='h-3/5'>
             <img className='h-full w-full object-cover'
-            src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" />
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9AvLAhtGjwHzY9fVkt8ps3gtgqzke1U6RgQ&s" alt="" />
         </div>
 
         <div className='h-2/5 p-6'>

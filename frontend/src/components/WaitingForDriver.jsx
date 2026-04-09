@@ -14,7 +14,7 @@ const WaitingForDriver = (props) => {
         
         <div className='flex items-center justify-between'>
              <img className='h-12'
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPsZ40PoKtuhkIRk8QC8fqmKbTkZxKJtcNLBL5biSojttSGQNSUdy8lxrLxFTJfXwkIWMKRs9t-aM_BpccWO6l&s&ec=121528429" alt="" />
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9AvLAhtGjwHzY9fVkt8ps3gtgqzke1U6RgQ&s" alt="" />
             <div className='text-right'>
                 <h2 className='text-lg font-medium'>{props.ride?.captain?.fullName?.firstName}</h2>
                 <h4 className='text-xl font-semibold -mt-1 -mb-1'>{props.ride?.captain?.vehicle?.plate}</h4>

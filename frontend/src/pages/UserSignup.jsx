@@ -51,7 +51,7 @@ const UserSignup = () => {
                 submitHandler(e)
             }}>
                 <img className='w-16 mb-8'
-                src="https://upload.wikimedia.org/wikipedia/commons/c/cc/thakur_logo_2018.png" alt="" />
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9AvLAhtGjwHzY9fVkt8ps3gtgqzke1U6RgQ&s" alt="" />
 
                 <h3 className='text-xl mb-2 font-medium'>What's your Name</h3>
                 <div className='flex gap-1'>

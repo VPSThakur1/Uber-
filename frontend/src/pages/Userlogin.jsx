@@ -47,7 +47,7 @@ const Userlogin = () => {
                 submitHandler(e)
             }}>
                 <img className='w-16 mb-8'
-                src="https://upload.wikimedia.org/wikipedia/commons/c/cc/thakur_logo_2018.png" alt="" />
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9AvLAhtGjwHzY9fVkt8ps3gtgqzke1U6RgQ&s" alt="" />
                 <h3 className='text-xl mb-2 font-medium'>What's your email</h3>
                 <input className='bg-[#eeeeee] mb-7 rounded px-4 py-2 border w-full text-lg placeholder:text-base'
                 required 
