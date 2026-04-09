@@ -1,4 +1,4 @@
-<h1 align="center">🚖 Uber Clone</h1>
+<h1 align="center">🚖Thakur Clone</h1>
 
 <p align="center">
   A full-stack real-time cab booking web application
