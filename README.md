@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <a href="https://uber-frontend-site.onrender.com/"><b>🌐 Live Demo</b></a> •
+  <a href="https://thakur-frontend.onrender.com/"><b>🌐 Live Demo</b></a> •
   <a href="https://github.com/your-username/your-repo-name"><b>📂 GitHub Repo</b></a>
 </p>
 
